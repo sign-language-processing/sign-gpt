@@ -2,13 +2,18 @@
 
 Multi Task GPT model for Sign Language Processing, using spoken language text.
 
-## Tokenization
+## Pre-Tokenization
 
-- Spoken language text is tokenized using a BPE tokenizer.
+- Spoken language text is left as is.
 - Poses are tokenized using the [MediaPipe vector quantizer](https://github.com/sign-language-processing/sign-vq).
 - SignWriting is tokenized using the
   [SignWriting Tokenizer](https://github.com/sign-language-processing/signwriting/blob/main/signwriting/tokenizer/signwriting_tokenizer.py).
-- HamNoSys (if used) is tokenized using a character level tokenizer.
+- HamNoSys is left as is.
+ 
+## Pretraining (Idea)
+
+There are many books and articles on Sign Language Processing, but they are not easily/widely accessible.
+Collecting a large dataset of text about sign language can be beneficial for large scale pretraining.
 
 ## Tasks
 
@@ -30,3 +35,21 @@ The tasks we currently cover are
 | Description to SignWriting           | Generate `American Sign Language` SignWriting from the description of a sign: `With your dominant hand open, touch your forehead and move your hand away, palm facing out.` | `M546x518S30007482x483S22f07525x467S15a2f516x482`                                             | [sign-language-processing/signwriting-description](https://github.com/sign-language-processing/signwriting-description)     |
 | Gloss to Text Translation            | Translate the following `American Sign Language` gloss sequence: `HELLO WORLD` to `English` text:                                                                           | `Hello World`                                                                                 | DGS Corpus, PHOENIX, (TODO)                                                                                                 |
 | Text to Gloss Translation            | Translate the following `English` text: `Hello World` to `American Sign Language` glosses:                                                                                  | `HELLO WORLD`                                                                                 | DGS Corpus, PHOENIX, (TODO)                                                                                                 |
+
+## Data Generation
+
+Set up the environment:
+```bash
+conda create --name sign_gpt python=3.11 -y
+conda activate sign_gpt
+
+pip install git+https://github.com/sign-language-processing/datasets.git
+pip install mediapipe gdown
+```
+
+Generate the data:
+```bash
+python -m sign_gpt.datasets.rwth_phoenix2014_t
+python -m sign_gpt.datasets.dicta_sign
+python -m sign_gpt.datasets.dgs_types
+```
