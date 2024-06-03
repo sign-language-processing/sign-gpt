@@ -44,7 +44,7 @@ conda create --name sign_gpt python=3.11 -y
 conda activate sign_gpt
 
 pip install git+https://github.com/sign-language-processing/datasets.git
-pip install mediapipe gdown
+pip install mediapipe gdown lxml
 ```
 
 Generate the data:
@@ -52,4 +52,5 @@ Generate the data:
 python -m sign_gpt.datasets.rwth_phoenix2014_t
 python -m sign_gpt.datasets.dicta_sign
 python -m sign_gpt.datasets.dgs_types
+python -m sign_gpt.datasets.dgs_corpus
 ```
