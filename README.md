@@ -9,7 +9,7 @@ Multi Task GPT model for Sign Language Processing, using spoken language text.
 - SignWriting is tokenized using the
   [SignWriting Tokenizer](https://github.com/sign-language-processing/signwriting/blob/main/signwriting/tokenizer/signwriting_tokenizer.py).
 - HamNoSys is left as is.
- 
+
 ## Pretraining (Idea)
 
 There are many books and articles on Sign Language Processing, but they are not easily/widely accessible.
@@ -33,12 +33,13 @@ The tasks we currently cover are
 | Single Sign Description              | Describe how to sign the following `English` text: `Hello` in `American Sign Language`:                                                                                     | `With your dominant hand open, touch your forehead and move your hand away, palm facing out.` | [sign-language-processing/signwriting-description](https://github.com/sign-language-processing/signwriting-description)     |
 | SignWriting Description              | Describe the sign represented by this `American Sign Language` SignWriting: `M546x518S30007482x483S22f07525x467S15a2f516x482`.                                              | `With your dominant hand open, touch your forehead and move your hand away, palm facing out.` | [sign-language-processing/signwriting-description](https://github.com/sign-language-processing/signwriting-description)     |
 | Description to SignWriting           | Generate `American Sign Language` SignWriting from the description of a sign: `With your dominant hand open, touch your forehead and move your hand away, palm facing out.` | `M546x518S30007482x483S22f07525x467S15a2f516x482`                                             | [sign-language-processing/signwriting-description](https://github.com/sign-language-processing/signwriting-description)     |
-| Gloss to Text Translation            | Translate the following `American Sign Language` gloss sequence: `HELLO WORLD` to `English` text:                                                                           | `Hello World`                                                                                 | DGS Corpus, PHOENIX, (TODO)                                                                                                 |
-| Text to Gloss Translation            | Translate the following `English` text: `Hello World` to `American Sign Language` glosses:                                                                                  | `HELLO WORLD`                                                                                 | DGS Corpus, PHOENIX, (TODO)                                                                                                 |
+| Gloss to Text Translation            | Translate the following `American Sign Language` gloss sequence: `HELLO WORLD` to `English` text:                                                                           | `Hello World`                                                                                 | DGS Corpus, PHOENIX                                                                                                         |
+| Text to Gloss Translation            | Translate the following `English` text: `Hello World` to `American Sign Language` glosses:                                                                                  | `HELLO WORLD`                                                                                 | DGS Corpus, PHOENIX                                                                                                         |
 
 ## Data Generation
 
 Set up the environment:
+
 ```bash
 conda create --name sign_gpt python=3.11 -y
 conda activate sign_gpt
@@ -48,10 +49,11 @@ pip install mediapipe gdown lxml
 ```
 
 Generate the data:
+
 ```bash
-python -m sign_gpt.datasets.rwth_phoenix2014_t
-python -m sign_gpt.datasets.dicta_sign
-python -m sign_gpt.datasets.dgs_types
-python -m sign_gpt.datasets.dgs_corpus
-python -m sign_gpt.datasets.signbank_plus
+python -m sign_gpt.custom_datasets.rwth_phoenix2014_t
+python -m sign_gpt.custom_datasets.dicta_sign
+python -m sign_gpt.custom_datasets.dgs_types
+python -m sign_gpt.custom_datasets.dgs_corpus
+python -m sign_gpt.custom_datasets.signbank_plus
 ```

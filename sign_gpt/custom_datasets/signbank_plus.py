@@ -24,7 +24,7 @@ paths = {
         "cleaned": data_dir / "cleaned" / "train.csv",
         "more": data_dir / "more" / "train.csv",
     },
-    "dev": {
+    "validation": {
         "cleaned": data_dir / "cleaned" / "dev.csv",
     },
     "test": {
