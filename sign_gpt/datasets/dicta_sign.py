@@ -16,8 +16,8 @@ config = SignDatasetConfig(name="only-annotations", version="1.0.0", include_vid
 dataset = tfds.load(name=DATASET_NAME, builder_kwargs=dict(config=config))
 
 TASKS = {
-    "hamnosys_to_text": "Given a sequence of HamNoSys notation for a sign in {signed_language}, translate it to {spoken_language} text.\nInput: {hamnosys}\nOutput: {text}",
-    "text_to_hamnosys": "Given a sequence of {spoken_language} text, translate it to HamNoSys notation in {signed_language}.\nInput: {text}\nOutput: {hamnosys}",
+    "hamnosys_to_text": "Given a sequence of HamNoSys notation for a sign in {signed_language}, translate it into {spoken_language} text.\nInput: {hamnosys}\nOutput: {text}",
+    "text_to_hamnosys": "Given a sequence of {spoken_language} text, translate it into HamNoSys notation in {signed_language}.\nInput: {text}\nOutput: {hamnosys}",
 }
 
 for split, split_data in dataset.items():

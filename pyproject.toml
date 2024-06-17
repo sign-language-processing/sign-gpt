@@ -12,7 +12,9 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest",
-    "pylint"
+    "pylint",
+    "tensorflow-datasets",
+    "sign_language_datasets @ git+https://github.com/sign-language-processing/datasets"
 ]
 
 [tool.yapf]
@@ -25,6 +27,7 @@ disable = [
     "C0114", # Missing module docstring
     "C0115", # Missing class docstring
     "C0116", # Missing function or method docstring
+    "C0301", # Line too long
 ]
 
 [tool.setuptools]

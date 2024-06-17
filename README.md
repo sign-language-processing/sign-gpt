@@ -53,4 +53,5 @@ python -m sign_gpt.datasets.rwth_phoenix2014_t
 python -m sign_gpt.datasets.dicta_sign
 python -m sign_gpt.datasets.dgs_types
 python -m sign_gpt.datasets.dgs_corpus
+python -m sign_gpt.datasets.signbank_plus
 ```

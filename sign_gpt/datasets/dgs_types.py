@@ -6,18 +6,18 @@ import tensorflow_datasets as tfds
 from sign_language_datasets.datasets.config import SignDatasetConfig
 
 from sign_gpt.language_utils.i18n import i18n
-from sign_gpt.language_utils.info import sign_language_by_abbreviation
 
 DATASET_NAME = "dgs_types"
 DATA_PATH = Path(f"processed/{DATASET_NAME}")
 DATA_PATH.mkdir(parents=True, exist_ok=True)
 
-config = SignDatasetConfig(name="only-annotations", version="1.0.0", include_video=False, process_video=False, include_pose=None)
+config = SignDatasetConfig(name="only-annotations", version="1.0.0",
+                           include_video=False, process_video=False, include_pose=None)
 dataset = tfds.load(name=DATASET_NAME, builder_kwargs=dict(config=config))
 
 TASKS = {
-    "hamnosys_to_gloss": "Given a sequence of HamNoSys notation for a sign in {signed_language}, translate it to a {spoken_language} gloss according to the DGS Corpus.\nInput: {hamnosys}\nOutput: {gloss}",
-    "gloss_to_hamnosys": "Given a {spoken_language} gloss according to the DGS Corpus, translate it to HamNoSys notation in {signed_language}.\nInput: {gloss}\nOutput: {hamnosys}",
+    "hamnosys_to_gloss": "Given a sequence of HamNoSys notation for a sign in {signed_language}, translate it into a {spoken_language} gloss according to the DGS Corpus.\nInput: {hamnosys}\nOutput: {gloss}",
+    "gloss_to_hamnosys": "Given a {spoken_language} gloss according to the DGS Corpus, translate it into HamNoSys notation in {signed_language}.\nInput: {gloss}\nOutput: {hamnosys}",
 }
 
 for split, split_data in dataset.items():

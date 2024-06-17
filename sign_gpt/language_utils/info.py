@@ -1,5 +1,6 @@
-# Info from https://github.com/sign/translate/blob/master/src/app/core/helpers/iana/languages.ts
-
+"""
+Info from https://github.com/sign/translate/blob/master/src/app/core/helpers/iana/languages.ts
+"""
 IANASignedLanguages = [
     {"signed": 'ads', "spoken": 'ak', "country": 'gh', "abbreviation": ''},  # Adamorobe Sign Language
     {"signed": 'sqk', "spoken": 'sq', "country": 'al', "abbreviation": ''},  # Albanian Sign Language
