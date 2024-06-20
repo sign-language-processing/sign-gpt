@@ -57,3 +57,13 @@ python -m sign_gpt.custom_datasets.dgs_types
 python -m sign_gpt.custom_datasets.dgs_corpus
 python -m sign_gpt.custom_datasets.signbank_plus
 ```
+
+### Crawl Idea
+
+We have very large crawlers (such as CommonCrawl) that can be used to collect data from websites/books.
+We can vectorize all videos.
+We have very strong and capable language models able to help us create data.
+So the idea would be: crawl the web/whatever, feed the contents to a language model to generate a system prompt, 
+and the relevant inputs and outputs from the document. We then compile that into "CrawlInstruct"
+
+Videos that include captions are always covnerted to a translation task.

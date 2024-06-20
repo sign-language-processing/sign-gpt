@@ -6,10 +6,11 @@ import tensorflow_datasets as tfds
 from sign_language_datasets.datasets.dgs_corpus import DgsCorpusConfig
 from tqdm import tqdm
 
+from sign_gpt.custom_datasets.dataset_utils import format_task
 from sign_gpt.language_utils.i18n import i18n
 
 DATASET_NAME = "dgs_corpus"
-DATA_PATH = Path(f"processed/{DATASET_NAME}")
+DATA_PATH = Path(__file__).parent.parent.parent / "processed" / DATASET_NAME
 DATA_PATH.mkdir(parents=True, exist_ok=True)
 
 config = DgsCorpusConfig(name="only-annotations-sentence-level-uzh", version="1.0.0",
@@ -18,8 +19,20 @@ config = DgsCorpusConfig(name="only-annotations-sentence-level-uzh", version="1.
 dataset = tfds.load(name=DATASET_NAME, builder_kwargs=dict(config=config))
 
 TASKS = {
-    "gloss_to_text": "Given a sequence of {signed_language}, {spoken_language} glosses and (mouthings) following the style and conventions of The DGS Corpus, translate it into a natural {spoken_language} sentence.\nInput: {gloss}\nOutput: {text}",
-    "text_to_gloss": "Given a {spoken_language} sentence, convert it into a sequence of {signed_language}, {spoken_language} glosses and (mouthings) following the style and conventions of The DGS Corpus.\nInput: {text}\nOutput: {gloss}",
+    "gloss_to_text": {
+        "system": "Given a sequence of {signed_language}, {spoken_language} glosses and (mouthings) following the style and conventions of The DGS Corpus, translate it into a natural {spoken_language} sentence.",
+        "messages": [{
+            "input": "{gloss}",
+            "output": "{text}",
+        }]
+    },
+    "text_to_gloss": {
+        "system": "Given a {spoken_language} sentence, convert it into a sequence of {signed_language}, {spoken_language} glosses and (mouthings) following the style and conventions of The DGS Corpus.",
+        "messages": [{
+            "input": "{text}",
+            "output": "{gloss}",
+        }]
+    }
 }
 
 
@@ -77,8 +90,7 @@ for split, split_data in dataset.items():
 
         for params in params_list:
             for task, file in split_files.items():
-                instruction_text = TASKS[task].format(**params)
-                file.write(json.dumps({"text": instruction_text}) + "\n")
+                file.write(json.dumps(format_task(TASKS[task], params)) + "\n")
 
     for file in split_files.values():
         file.close()

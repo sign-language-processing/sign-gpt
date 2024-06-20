@@ -5,19 +5,32 @@ from pathlib import Path
 import tensorflow_datasets as tfds
 from sign_language_datasets.datasets.config import SignDatasetConfig
 
+from sign_gpt.custom_datasets.dataset_utils import format_task
 from sign_gpt.language_utils.i18n import i18n
 from sign_gpt.language_utils.info import sign_language_by_abbreviation
 
 DATASET_NAME = "dicta_sign"
-DATA_PATH = Path(f"processed/{DATASET_NAME}")
+DATA_PATH = Path(__file__).parent.parent.parent / "processed" / DATASET_NAME
 DATA_PATH.mkdir(parents=True, exist_ok=True)
 
 config = SignDatasetConfig(name="only-annotations", version="1.0.0", include_video=False, include_pose=None)
 dataset = tfds.load(name=DATASET_NAME, builder_kwargs=dict(config=config))
 
 TASKS = {
-    "hamnosys_to_text": "Given a sequence of HamNoSys notation for a sign in {signed_language}, translate it into {spoken_language} text.\nInput: {hamnosys}\nOutput: {text}",
-    "text_to_hamnosys": "Given a sequence of {spoken_language} text, translate it into HamNoSys notation in {signed_language}.\nInput: {text}\nOutput: {hamnosys}",
+    "hamnosys_to_text": {
+        "system": "Given a sequence of HamNoSys notation for a sign in {signed_language}, translate it into {spoken_language} text.",
+        "messages": [{
+            "input": "{hamnosys}",
+            "output": "{text}",
+        }]
+    },
+    "text_to_hamnosys": {
+        "system": "Given a sequence of {spoken_language} text, translate it into HamNoSys notation in {signed_language}.",
+        "messages": [{
+            "input": "{text}",
+            "output": "{hamnosys}",
+        }]
+    }
 }
 
 for split, split_data in dataset.items():
@@ -38,8 +51,7 @@ for split, split_data in dataset.items():
             "gloss": datum['gloss'].numpy().decode('utf-8'),
         }
         for task, file in split_files.items():
-            instruction_text = TASKS[task].format(**params)
-            file.write(json.dumps({"text": instruction_text}) + "\n")
+            file.write(json.dumps(format_task(TASKS[task], params)) + "\n")
 
     for file in split_files.values():
         file.close()

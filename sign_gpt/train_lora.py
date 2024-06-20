@@ -12,10 +12,10 @@ os.environ["WANDB_LOG_MODEL"] = "checkpoint"  # log all model checkpoints
 
 
 def prep_llama3_instruction(datum):
-    text = datum['text']
-    text = "<|start_header_id|>system<|end_header_id|>\n\n" + text + "<|eot_id|>"
-    text = text.replace("\nInput: ", "<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n")
-    text = text.replace("\nOutput: ", "<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n")
+    text = "<|start_header_id|>system<|end_header_id|>\n\n" + datum['system'] + "<|eot_id|>"
+    for message in datum['messages']:
+        text += "<|start_header_id|>user<|end_header_id|>\n\n" + message['input'] + "<|eot_id|>"
+        text += "<|start_header_id|>assistant<|end_header_id|>\n\n" + message['output'] + "<|eot_id|>"
     return {"text": text}
 
 

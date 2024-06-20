@@ -6,12 +6,13 @@ from pathlib import Path
 
 from tqdm import tqdm
 
+from sign_gpt.custom_datasets.dataset_utils import format_task
 from sign_gpt.language_utils.i18n import i18n
 
 csv.field_size_limit(2 ** 20)  # Increase limit to 1MB (2^20 characters)
 
 DATASET_NAME = "signbank_plus"
-DATA_PATH = Path(f"processed/{DATASET_NAME}")
+DATA_PATH = Path(__file__).parent.parent.parent / "processed" / DATASET_NAME
 DATA_PATH.mkdir(parents=True, exist_ok=True)
 
 data_dir = Path("/Users/amitmoryossef/dev/sign-language-processing/signbank-annotation/signbank-plus/data/parallel")
@@ -20,7 +21,6 @@ if not data_dir.exists():
 
 paths = {
     "train": {
-        "expanded": data_dir / "expanded" / "train.csv",
         "cleaned": data_dir / "cleaned" / "train.csv",
         "more": data_dir / "more" / "train.csv",
     },
@@ -33,8 +33,20 @@ paths = {
 }
 
 TASKS = {
-    "signwriting_to_text": "Given a sequence of SignWriting in {signed_language} ({data_type}), translate it into {spoken_language}.\nInput: {signwriting}\nOutput: {text}",
-    "text_to_signwriting": "Given {spoken_language} text, translate it into {signed_language} using SignWriting ({data_type}).\nInput: {text}\nOutput: {signwriting}",
+    "signwriting_to_text": {
+        "system": "Given a sequence of SignWriting in {signed_language}, translate it into {spoken_language}.",
+        "messages": [{
+            "input": "{signwriting}",
+            "output": "{text}",
+        }]
+    },
+    "text_to_signwriting": {
+        "system": "Given {spoken_language} text, translate it into {signed_language} using SignWriting.",
+        "messages": [{
+            "input": "{text}",
+            "output": "{signwriting}",
+        }]
+    }
 }
 
 for split, split_data in paths.items():
@@ -58,8 +70,7 @@ for split, split_data in paths.items():
                 "signwriting": ' '.join(signs)
             }
             for task, file in split_files.items():
-                instruction_text = TASKS[task].format(**params)
-                file.write(json.dumps({"text": instruction_text}) + "\n")
+                file.write(json.dumps(format_task(TASKS[task], params)) + "\n")
 
     for file in split_files.values():
         file.close()
