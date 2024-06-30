@@ -7,14 +7,26 @@ authors = [
 ]
 readme = "README.md"
 dependencies = [
+    "datasets",
+    "wandb"
 ]
 
 [project.optional-dependencies]
 dev = [
     "pytest",
     "pylint",
+    # To pre-generate the datasets
     "tensorflow-datasets",
     "sign_language_datasets @ git+https://github.com/sign-language-processing/datasets"
+]
+keras = [
+    "keras-nlp",
+    "keras>=3"
+]
+huggingface = [
+    "torch",
+    "peft",
+    "transformers"
 ]
 
 [tool.yapf]

@@ -67,3 +67,13 @@ So the idea would be: crawl the web/whatever, feed the contents to a language mo
 and the relevant inputs and outputs from the document. We then compile that into "CrawlInstruct"
 
 Videos that include captions are always covnerted to a translation task.
+
+## Model Training
+
+```bash
+pip install .[huggingface]
+python -m sign_gpt.models.huggingface.train_lora
+
+pip install .[keras]
+python -m sign_gpt.models.keras.train_gemma
+```
