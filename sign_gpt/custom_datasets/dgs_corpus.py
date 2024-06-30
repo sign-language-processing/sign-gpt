@@ -89,6 +89,10 @@ for split, split_data in dataset.items():
         ]
 
         for params in params_list:
+            # Some English text is missing, and should not be included in the dataset
+            if params["text"].strip() == "":
+                print("Skipping", params)
+                continue
             for task, file in split_files.items():
                 file.write(json.dumps(format_task(TASKS[task], params)) + "\n")
 

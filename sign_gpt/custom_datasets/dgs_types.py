@@ -49,6 +49,10 @@ for split, split_data in dataset.items():
                 "spoken_language": i18n("languages", "de"),
             }
 
+            if params["gloss"].strip() == "" or params["hamnosys"].strip() == "":
+                print("Skipping", params)
+                continue
+
             for task, file in split_files.items():
                 file.write(json.dumps(format_task(TASKS[task], params)) + "\n")
 
