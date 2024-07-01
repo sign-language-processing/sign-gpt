@@ -73,6 +73,7 @@ Videos that include captions are always covnerted to a translation task.
 ```bash
 pip install .[huggingface]
 python -m sign_gpt.models.huggingface.train_lora
+sbatch sign_gpt/models/huggingface/train.sh
 
 pip install .[keras]
 python -m sign_gpt.models.keras.train_gemma
