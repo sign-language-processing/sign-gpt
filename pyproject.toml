@@ -28,6 +28,10 @@ huggingface = [
     "peft",
     "transformers"
 ]
+vertex = [
+    "gcsfs",
+    "vertexai"
+]
 
 [tool.yapf]
 based_on_style = "google"

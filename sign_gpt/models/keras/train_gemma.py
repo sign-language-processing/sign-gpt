@@ -1,3 +1,5 @@
+"""Based on https://ai.google.dev/gemma/docs/lora_tuning"""
+
 import os
 
 os.environ["KERAS_BACKEND"] = "jax"  # Or "torch" or "tensorflow".
@@ -10,6 +12,8 @@ import wandb
 import keras
 import keras_nlp
 from wandb.integration.keras import WandbMetricsLogger
+
+keras.mixed_precision.set_global_policy('mixed_bfloat16')
 
 
 def prep_gemini_instruction(datum):
