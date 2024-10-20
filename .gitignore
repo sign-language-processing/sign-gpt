@@ -1,3 +1,5 @@
 .idea/
 processed/**/*.lock
 common_crawl/
+**/*.DS_Store
+**/__pycache__/
