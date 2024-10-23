@@ -56,6 +56,7 @@ python -m sign_gpt.custom_datasets.dicta_sign
 python -m sign_gpt.custom_datasets.dgs_types
 python -m sign_gpt.custom_datasets.dgs_corpus
 python -m sign_gpt.custom_datasets.signbank_plus
+python -m sign_gpt.custom_datasets.signwriting_hamnosys
 ```
 
 ### Crawl Idea

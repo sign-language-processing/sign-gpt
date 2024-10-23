@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 import signwriting
+from signwriting.formats.fsw_to_swu import fsw2swu
 
 from sign_gpt.custom_datasets.dataset_utils import format_task
 from sign_gpt.language_utils.i18n import i18n
@@ -43,7 +44,7 @@ for datum in data:
     if "signwriting" in datum and "hamnosys" in datum and len(datum["hamnosys"]) == 1:
         params = {
             "hamnosys": datum['hamnosys'][0],
-            "signwriting": datum['signwriting'],
+            "signwriting": fsw2swu(datum['signwriting']),
             "signed_language": i18n("signed_languages", "sgg"),
         }
 

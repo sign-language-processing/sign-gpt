@@ -8,6 +8,8 @@ from tqdm import tqdm
 from sign_gpt.custom_datasets.dataset_utils import format_task
 from sign_gpt.language_utils.i18n import i18n
 
+from signwriting.formats.fsw_to_swu import fsw2swu
+
 csv.field_size_limit(2 ** 20)  # Increase limit to 1MB (2^20 characters)
 
 DATASET_NAME = "signbank_plus"
@@ -60,14 +62,15 @@ for split, split_data in paths.items():
             data = list(csv.DictReader(f))
 
         for datum in tqdm(data):
-            spoken_language, signed_language, *signs = datum['source'].split(' ')
+            spoken_language, signed_language, *fsw_signs = datum['source'].split(' ')
             params = {
                 "text": datum['target'],
                 "spoken_language": i18n("languages", spoken_language[1:]),
                 "signed_language": i18n("signed_languages", signed_language[1:]),
                 "data_type": data_type,
-                "signwriting": ' '.join(signs)
+                "signwriting": fsw2swu(' '.join(fsw_signs))
             }
+
             for task, file in split_files.items():
                 file.write(json.dumps(format_task(TASKS[task], params)) + "\n")
 
