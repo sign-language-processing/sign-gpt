@@ -105,7 +105,7 @@ def get_trainer(model, tokenizer, train_dataset, validation_dataset, output_dir)
     return trainer
 
 
-if __name__ == "__main__":
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output-dir", type=str, help="Path to output directory")
     args = parser.parse_args()
@@ -122,3 +122,7 @@ if __name__ == "__main__":
     trainer.train()
 
     trainer.model.save_pretrained(args.output_dir)
+
+
+if __name__ == "__main__":
+    main()

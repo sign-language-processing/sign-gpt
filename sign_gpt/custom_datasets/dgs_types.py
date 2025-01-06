@@ -14,7 +14,7 @@ DATA_PATH.mkdir(parents=True, exist_ok=True)
 
 config = SignDatasetConfig(name="only-annotations", version="1.0.0",
                            include_video=False, process_video=False, include_pose=None)
-dataset = tfds.load(name=DATASET_NAME, builder_kwargs=dict(config=config))
+dataset = tfds.load(name=DATASET_NAME, builder_kwargs={"config": config})
 
 TASKS = {
     "hamnosys_to_gloss": {

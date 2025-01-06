@@ -3,12 +3,11 @@ import gzip
 import json
 from pathlib import Path
 
+from signwriting.formats.fsw_to_swu import fsw2swu
 from tqdm import tqdm
 
 from sign_gpt.custom_datasets.dataset_utils import format_task
 from sign_gpt.language_utils.i18n import i18n
-
-from signwriting.formats.fsw_to_swu import fsw2swu
 
 csv.field_size_limit(2 ** 20)  # Increase limit to 1MB (2^20 characters)
 

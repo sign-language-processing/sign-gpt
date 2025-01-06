@@ -7,8 +7,7 @@ authors = [
 ]
 readme = "README.md"
 dependencies = [
-    "datasets",
-    "wandb"
+    "datasets"
 ]
 
 [project.optional-dependencies]
@@ -17,16 +16,19 @@ dev = [
     "pylint",
     # To pre-generate the datasets
     "tensorflow-datasets",
-    "sign_language_datasets @ git+https://github.com/sign-language-processing/datasets"
+    "sign_language_datasets @ git+https://github.com/sign-language-processing/datasets",
+    "signwriting @ git+https://github.com/sign-language-processing/signwriting"
 ]
 keras = [
     "keras-nlp",
-    "keras>=3"
+    "keras>=3",
+    "wandb"
 ]
 huggingface = [
     "torch",
     "peft",
-    "transformers"
+    "transformers",
+    "wandb"
 ]
 vertex = [
     "gcsfs",
@@ -44,6 +46,7 @@ disable = [
     "C0115", # Missing class docstring
     "C0116", # Missing function or method docstring
     "C0301", # Line too long
+    "R0801", # Similar lines in 2 files
 ]
 
 [tool.setuptools]

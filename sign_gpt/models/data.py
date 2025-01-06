@@ -33,6 +33,6 @@ if __name__ == "__main__":
         for message in datum["messages"]:
             if message["input"] == "" or message["output"] == "":
                 print(datum)
-                raise Exception("Empty input or output")
+                raise ValueError("Empty input or output")
 
     load_datasets(check_dataset, hide_test=False)

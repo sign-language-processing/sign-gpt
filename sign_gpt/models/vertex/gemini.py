@@ -1,6 +1,8 @@
 import vertexai
 from vertexai.preview.tuning import sft
 
+from sign_gpt.models.data import load_datasets
+
 
 def prep_gemini_instruction(datum):
     messages = []
@@ -9,8 +11,8 @@ def prep_gemini_instruction(datum):
         messages.append({"role": "model", "parts": [{"text": message['output']}]})
 
     if any(message["parts"][0]["text"] == "" for message in messages):
-        print(message)
-        raise Exception("Empty input or output will make gemini crash")
+        print(messages)
+        raise ValueError("Empty input or output will make gemini crash")
 
     return {
         "systemInstruction": {
@@ -21,7 +23,7 @@ def prep_gemini_instruction(datum):
     }
 
 
-if __name__ == "__main__":
+def main():
     gcs_path = "gcs://sign-language-datasets/public/sign-gpt"
     gs_path = "gs://sign-language-datasets/public/sign-gpt"
 
@@ -29,14 +31,15 @@ if __name__ == "__main__":
     train_dataset, validation_dataset, test_dataset = load_datasets(prep_gemini_instruction, hide_test=False,
                                                                     remove_columns=("system", "messages"))
 
+    if len(train_dataset) > 50_000:
+        raise ValueError("Training dataset is too large for tuning with Vertex AI. "
+                         "max allowed training steps is 50,000, with an unknown batch size.")
+
     train_dataset.to_json(gcs_path + "/train.jsonl", lines=True)
     # Validation Dataset can not contain more than 256 model turns.
     validation_dataset = validation_dataset.select(range(256))
     validation_dataset.to_json(gcs_path + "/validation.jsonl", lines=True)
     test_dataset.to_json(gcs_path + "/test.jsonl", lines=True)
-
-    # TODO: max allowed training steps is 50,000, with an unknown batch size.
-    #       this makes vertex ai tuning on our entire dataset impossible.
 
     # Create training job
     vertexai.init(project="sign-mt", location="us-central1")
@@ -48,3 +51,7 @@ if __name__ == "__main__":
         learning_rate_multiplier=1.0,
         tuned_model_display_name="tuned_gemini_pro",
     )
+
+
+if __name__ == "__main__":
+    main()

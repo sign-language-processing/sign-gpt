@@ -6,14 +6,16 @@ os.environ["KERAS_BACKEND"] = "jax"  # Or "torch" or "tensorflow".
 # Avoid memory fragmentation on JAX backend.
 os.environ["XLA_PYTHON_CLIENT_MEM_FRACTION"] = "1.00"
 
-from sign_gpt.models.data import load_datasets
-import wandb
-
+# pylint: disable=wrong-import-position
 import keras
 import keras_nlp
-from wandb.integration.keras import WandbMetricsLogger
 
 keras.mixed_precision.set_global_policy('mixed_bfloat16')
+
+import wandb
+from wandb.integration.keras import WandbMetricsLogger
+
+from sign_gpt.models.data import load_datasets
 
 
 def prep_gemini_instruction(datum):
@@ -50,9 +52,7 @@ def load_model(model_id="gemma_2b_en"):
     return model
 
 
-if __name__ == "__main__":
-    output_dir = "/tmp"
-
+def main():
     train_dataset, validation_dataset, test_dataset = load_datasets(prep_gemini_instruction)
     print(train_dataset["text"][0])
 
@@ -67,3 +67,7 @@ if __name__ == "__main__":
               epochs=1,
               batch_size=1  # TODO: check how much fits on GPU
               )
+
+
+if __name__ == "__main__":
+    main()

@@ -16,7 +16,8 @@ DATA_PATH.mkdir(parents=True, exist_ok=True)
 config = DgsCorpusConfig(name="only-annotations-sentence-level-uzh", version="1.0.0",
                          include_video=False, include_pose=None, data_type="sentence",
                          split="3.0.0-uzh-sentence")
-dataset = tfds.load(name=DATASET_NAME, builder_kwargs=dict(config=config))
+dataset = tfds.load(name=DATASET_NAME, builder_kwargs={"config": config})
+
 
 TASKS = {
     "gloss_to_text": {
