@@ -11,3 +11,12 @@ def format_task(task, params):
         elif isinstance(value, dict):
             task[key] = format_task(value, params)
     return task
+
+def format_long_task(task, params_list: list):
+    task = deepcopy(task)
+    task["system"] = task["system"].format(**params_list[0])
+    message_template = task["messages"][0]
+    task["messages"] = []
+    for params in params_list:
+        task["messages"].append(format_task(message_template, params))
+    return task
